@@ -1,0 +1,103 @@
+<row pos="80" num="2630">
+    <item href="taller-overlock-express-_99400409282.html">
+        <address  label="Adreça">
+            <![CDATA[C Brusi 51]]>
+        </address>
+        <begindate label2="Quan:" label="Del">
+            <![CDATA[18/01/2017]]>
+        </begindate>
+        <city  label="Població">
+            <![CDATA[Barcelona]]>
+        </city>
+        <district  label="Districte">
+            <![CDATA[Sarrià-Sant Gervasi]]>
+        </district>
+        <enddate  label="al">
+            <![CDATA[22/03/2017]]>
+        </enddate>
+        <equipment_id href="centre-civic-casa-sagnier_99400179932.html" label="Equipment_id">
+            <![CDATA[99400179932]]>
+        </equipment_id>
+        <addresses>
+            <item>
+                <district>
+                    <![CDATA[Sarrià-Sant Gervasi]]>
+                </district>
+                <barri>
+                    <![CDATA[Sant Gervasi - Galvany]]>
+                </barri>
+                <city>
+                    <![CDATA[Barcelona]]>
+                </city>
+                <coordaddressx>
+                    <![CDATA[28551.453]]>
+                </coordaddressx>
+                <coordaddressy>
+                    <![CDATA[83952.738]]>
+                </coordaddressy>
+                <code_comarca>
+                    <![CDATA[Barcelonès]]>
+                </code_comarca>
+                <gmapx>
+                    <![CDATA[41.402095329738]]>
+                </gmapx>
+                <gmapy>
+                    <![CDATA[2.1441110897598]]>
+                </gmapy>
+                <address>
+                    <![CDATA[C Brusi 51]]>
+                </address>
+                <streetnum>
+                    <![CDATA[51]]>
+                </streetnum>
+            </item>
+        </addresses>
+        <interestinfo>
+            <item>
+                <interinfo>
+                    <![CDATA[ajuntament.barcelona.cat/ccivics/casasagnier]]>
+                </interinfo>
+                <intercode>
+                    <![CDATA[00030012]]>
+                </intercode>
+                <label>
+                    <![CDATA[Web d'inscripcions]]>
+                </label>
+            </item>
+        </interestinfo>
+        <gmapx  label="Lat">
+            <![CDATA[41.402096]]>
+        </gmapx>
+        <gmapy  label="Long">
+            <![CDATA[2.1441112]]>
+        </gmapy>
+        <id  label="">
+            <![CDATA[99400409282]]>
+        </id>
+        <institutionname  label="On:">
+            <![CDATA[Centre Cívic Casa Sagnier]]>
+        </institutionname>
+        <name  label="Nom">
+            <![CDATA[Taller 'Overlock express']]>
+        </name>
+        <phonenumber  label="Tel.:">
+            <![CDATA[934140195]]>
+        </phonenumber>
+        <proxdate  label="">
+            <![CDATA[18/01/2017]]>
+        </proxdate>
+        <type  label="Tipus">
+            <![CDATA[Agenda]]>
+        </type>
+        <pos  label="">
+            <![CDATA[80]]>
+        </pos>
+        <proxhour  label="">
+            <![CDATA[00:00]]>
+        </proxhour>
+        <tp  label="">
+            <![CDATA[AG]]>
+        </tp>
+        <likeit href="index.php?pg=detall&amp;lk=y&amp;id_doc=99400409282" label="M'agrada " votes="0" />
+    </item>
+</row>
