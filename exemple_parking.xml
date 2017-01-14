@@ -1,0 +1,71 @@
+<row pos="222" num="223">
+    <item href="aparcament-antonio-i-mordf-baeza-i-sogas_75990545575.html">
+        <address  label="Adreça">
+            <![CDATA[C Moianés 64]]>
+        </address>
+        <city  label="Població">
+            <![CDATA[Barcelona]]>
+        </city>
+        <district  label="Districte">
+            <![CDATA[Sants-Montjuïc]]>
+        </district>
+        <addresses>
+            <item>
+                <district>
+                    <![CDATA[Sants-Montjuïc]]>
+                </district>
+                <barri>
+                    <![CDATA[Hostafrancs]]>
+                </barri>
+                <city>
+                    <![CDATA[Barcelona]]>
+                </city>
+                <coordaddressx>
+                    <![CDATA[28395.02]]>
+                </coordaddressx>
+                <coordaddressy>
+                    <![CDATA[80833.426]]>
+                </coordaddressy>
+                <code_comarca>
+                    <![CDATA[Barcelonès]]>
+                </code_comarca>
+                <gmapx>
+                    <![CDATA[41.37398691137]]>
+                </gmapx>
+                <gmapy>
+                    <![CDATA[2.1426087268754]]>
+                </gmapy>
+                <address>
+                    <![CDATA[C Moianés 64]]>
+                </address>
+                <streetnum>
+                    <![CDATA[64]]>
+                </streetnum>
+            </item>
+        </addresses>
+        <gmapx  label="Lat">
+            <![CDATA[41.373985]]>
+        </gmapx>
+        <gmapy  label="Long">
+            <![CDATA[2.1426086]]>
+        </gmapy>
+        <id  label="">
+            <![CDATA[75990545575]]>
+        </id>
+        <name  label="Nom">
+            <![CDATA[Aparcament Antonio i Mª Baeza i Sogas]]>
+        </name>
+        <phonenumber  label="Tel.:">
+            <![CDATA[934316525]]>
+        </phonenumber>
+        <type  label="Tipus">
+            <![CDATA[Entitats i equipaments]]>
+        </type>
+        <pos  label="">
+            <![CDATA[222]]>
+        </pos>
+        <tp  label="">
+            <![CDATA[EQ]]>
+        </tp>
+    </item>
+</row>
