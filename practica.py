@@ -62,6 +62,29 @@ def parse_acts(xml):
     return acts
 
 
+def parse_park_row(item):
+    item = item[0]
+    name = item.find('name')
+    address = item.find('address')
+    lat = item.find('gmapx')
+    long_ = item.find('gmapy')
+    if any(map(lambda x: x is None, [name, address, lat, long_])):
+        return None
+    else:
+        return {
+            'name': name.text,
+            'address': address.text,
+            'lat': lat.text,
+            'long': long_.text,
+        }
+
+
+def parse_parkings(xml):
+    root = ET.fromstring(xml)
+    acts = map(parse_park_row, root.iter('row'))
+    return list(acts)
+
+
 def parse_bicing_station(station):
     _id = station.find('id')
     lat = station.find('lat')
@@ -174,24 +197,82 @@ def haversine(lon1, lat1, lon2, lat2):
 def distance(elem, station):
     if not elem or not station:
         return 0.0
-    return haversine(station['long'], station['lat'], elem['long'], elem['lat'])
+    return round(haversine(station['long'], station['lat'], elem['long'], elem['lat']),2)
 
 
 def create_stations_mapper(stations):
     def f(elem):
         def add_d(station):
             dist = distance(elem, station)
-            station['d'] = dist
+            station['distance'] = dist
+            return station
 
-        current_st = map(add_d, stations)
-        # current_st = filter(lambda x: distance(elem, x) <= 500, current_st)
-        current_st = sorted(current_st, key=lambda x: distance(elem, x))
-        elem['bicing_slots'] = list(islice(filter(lambda x: int(x['slots']) > 0, current_st), 5))
-        elem['bicing_bikes'] = list(islice(filter(lambda x: int(x['bikes']) > 0, current_st), 5))
+        current_st = filter(None, map(add_d, stations))
+        current_st = filter(lambda x: distance(elem, x) <= 500.0, current_st)
+        current_st = sorted(current_st, key=lambda x: x['distance'])
+        elem['bicing_slots'] = sorted(list(islice(filter(lambda x: int(x['slots']) > 0, current_st), 5)),
+                                      key=lambda x: x['distance'])
+        elem['bicing_bikes'] = sorted(list(islice(filter(lambda x: int(x['bikes']) > 0, current_st), 5)),
+                                      key=lambda x: x['distance'])
         return elem
 
     return f
 
+
+def create_parkings_mapper(parkings):
+    def f(elem):
+        def add_d(park):
+            dist = distance(elem, park)
+            park['distance'] = dist
+            return park
+
+        current_st = filter(None, map(add_d, parkings))
+        current_st = filter(lambda x: distance(elem, x) <= 500.0, current_st)
+        current_st = sorted(current_st, key=lambda x: x['distance'])
+        elem['parkings'] = sorted(list(islice(current_st, 5)), key=lambda x:x['distance'])
+        return elem
+
+    return f
+
+
+def create_title(title,table):
+    tr = ET.SubElement(table, "tr")
+    th = ET.SubElement(tr, "th", colspan="4").text = title
+
+def add_act_data(act,table):
+    tr = ET.SubElement(table, "tr")
+    th = ET.SubElement(tr, "th").text = "Nom"    
+    th = ET.SubElement(tr, "th").text = "Adreça"    
+    th = ET.SubElement(tr, "th").text = "Hora"    
+    th = ET.SubElement(tr, "th").text = "Dia"    
+    tr = ET.SubElement(table, "tr")
+    th = ET.SubElement(tr, "td").text = act['name']    
+    th = ET.SubElement(tr, "td").text = act['address']   
+    th = ET.SubElement(tr, "td").text = act['hour']    
+    th = ET.SubElement(tr, "td").text = act['begin']+'-'+act['end']    
+
+def add_bicings(bicings,table,title_field, field):
+    tr = ET.SubElement(table, "tr")
+    th = ET.SubElement(tr, "th").text = title_field   
+    th = ET.SubElement(tr, "th", colspan="2").text = "Adreça"    
+    th = ET.SubElement(tr, "th").text = "Distancia (m)"
+    for bicing in bicings:
+        tr = ET.SubElement(table, "tr")
+        th = ET.SubElement(tr, "td").text = bicing[field]
+        th = ET.SubElement(tr, "td", colspan="2").text = bicing['street']
+        th = ET.SubElement(tr, "td").text = str(bicing['distance'])
+
+
+def add_parkings(parkings, table):
+    tr = ET.SubElement(table, "tr")
+    th = ET.SubElement(tr, "th").text = "Nom"    
+    th = ET.SubElement(tr, "th", colspan="2").text = "Adreça"    
+    th = ET.SubElement(tr, "th").text = "Distancia (m)"
+    for parking in parkings:
+        tr = ET.SubElement(table, "tr")
+        th = ET.SubElement(tr, "td").text = parking['name']
+        th = ET.SubElement(tr, "td", colspan="2").text = parking['address']
+        th = ET.SubElement(tr, "td").text = str(parking['distance'])
 
 def main():
     key = load_arg('--key')
@@ -206,7 +287,36 @@ def main():
 
     stations = parse_bicing(request_xml(URL_BICING))
     acts = map(create_stations_mapper(stations), acts)
-    pprint(list(acts))
+
+    parkings = parse_parkings(request_xml(URL_APARCAMENTS))
+    acts = map(create_parkings_mapper(parkings), acts)
+    body = ET.Element("body")
+    style = ET.SubElement(body, "style").text = """
+    table {
+        border-collapse: collapse;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    """
+    table = ET.SubElement(body,"table", width="100%")
+    for act in acts:
+        create_title("Activitat",table)
+        add_act_data(act,table)
+        if act['bicing_slots']:
+            create_title("Aparcament bicicletes disponibles",table)
+            add_bicings(act['bicing_slots'],table,"Llocs disponibles",'slots')
+        if act['bicing_bikes']:
+            create_title("Bicicletes disponibles",table)
+            add_bicings(act['bicing_bikes'],table,"Bicis disponibles",'bikes')
+        if act['parkings']:
+            create_title("Aparcaments propers",table)
+            add_parkings(act['parkings'],table)
+        create_title("\n\n",table)
+
+
+    tree = ET.ElementTree(body)
+    tree.write("output.html")
 
 
 if __name__ == '__main__':
